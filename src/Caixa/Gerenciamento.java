@@ -2,7 +2,7 @@ package Caixa;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+import javax.swing.JOptionPane;
 
 public class Gerenciamento {
     private static List<Compra> compras = new ArrayList<>();
@@ -16,46 +16,44 @@ public class Gerenciamento {
                 nomeExistente = true;
             }
         }
+
         if (nomeExistente) {
-            System.out.println("\n" + "O produto que será adicionado já foi cadastrado. Por favor, insira um novo\n" + "produto!" + "\n");
+            JOptionPane.showMessageDialog(null, "O produto que será adicionado já foi cadastrado. Por favor, insira um novo produto!");
         } else {
-            Produto p1 = new Produto(nome,valor);
+            Produto p1 = new Produto(nome, valor);
             produtos.add(p1);
-            System.out.println("\n" + "Cadastrado com sucesso!!" + "\n");
+            JOptionPane.showMessageDialog(null, "Cadastrado com sucesso!!");
         }
     }
 
     public static void editar(int codigo) {
-
-        Scanner sc = new Scanner(System.in);
-
-        boolean produtoEncontrado = false; //variavel de verificação
+        boolean produtoEncontrado = false;
 
         for (Produto produto : produtos) {
-
             if (produto.getCode() == codigo) {
-                System.out.print("\n" + "Digite o novo nome do produto:");
-                String novoNome = sc.nextLine();
-                System.out.print("Digite o novo valor do produto:");
-                float novoValor = sc.nextFloat();
-                produto.setName(novoNome); // set para atribuir um novo valor
-                produto.setValue(novoValor); // set para atribuir um novo valor
+                String novoNome = JOptionPane.showInputDialog("Digite o novo nome do produto:");
+                float novoValor = Float.parseFloat(JOptionPane.showInputDialog("Digite o novo valor do produto:"));
+                produto.setName(novoNome);
+                produto.setValue(novoValor);
                 produtoEncontrado = true;
-                System.out.println("\n" + "Produto editado com sucesso!" + "\n");
+                JOptionPane.showMessageDialog(null, "Produto editado com sucesso!");
             }
         }
+
         if (!produtoEncontrado) {
-            System.out.println("\n" + "Produto não encontrado. Não foi possível editar.");
+            JOptionPane.showMessageDialog(null, "Produto não encontrado. Não foi possível editar.");
         }
     }
 
     public static void listar() {
         if (produtos.isEmpty()) {
-            System.out.println("Não há produtos na lista!!" + "\n");
+            JOptionPane.showMessageDialog(null, "Não há produtos na lista!!");
         } else {
+            StringBuilder mensagem = new StringBuilder();
             for (Produto produto : produtos) {
-                System.out.println("Codigo: " + produto.getCode() + "\nNome: " + produto.getName() + "\nValor: " + produto.getValue() + "\n");
+                mensagem.append("Codigo: ").append(produto.getCode()).append("\nNome: ").append(produto.getName()).append("\nValor: ").append(produto.getValue()).append("\n\n");
             }
+            JOptionPane.showMessageDialog(null, mensagem.toString());
         }
     }
 
@@ -65,25 +63,24 @@ public class Gerenciamento {
         for (Produto produto : produtos) {
             if (produto.getCode() == codigo) {
                 produtoRemovido = produto;
-                //verifica se o codigo digitado é referente ao produto e deixa alocado na variavel produtoRemovido
             }
         }
+
         if (produtoRemovido != null) {
             produtos.remove(produtoRemovido);
-            System.out.println("\n" + "Produto removido com sucesso!" + "\n");
+            JOptionPane.showMessageDialog(null, "Produto removido com sucesso!");
         } else {
-            System.out.println("\n" + "Produto não encontrado. Não foi possível remover.");
+            JOptionPane.showMessageDialog(null, "Produto não encontrado. Não foi possível remover.");
         }
     }
 
     public static void adicionarCompra(int codigo) {
-
         boolean produtoEncontrado = false;
 
         for (Compra compra : compras) {
             if (compra.getProduto().getCode() == codigo) {
-                System.out.println("\n" + "Este produto já foi adicionado à lista de compras." + "\n");
-                return; // Se o produto já foi adicionado, saia do método
+                JOptionPane.showMessageDialog(null, "Este produto já foi adicionado à lista de compras.");
+                return;
             }
         }
 
@@ -91,40 +88,46 @@ public class Gerenciamento {
             if (produto.getCode() == codigo) {
                 Compra c1 = new Compra(produto);
                 compras.add(c1);
-                System.out.println("\n"+"Produto adicionado com sucesso!!"+ "\n");
+                JOptionPane.showMessageDialog(null, "Produto adicionado com sucesso!!");
                 produtoEncontrado = true;
             }
         }
 
         if (!produtoEncontrado) {
-            System.out.println("\n" + "Produto não encontrado. Não foi possível adicionar à lista de compras." + "\n");
+            JOptionPane.showMessageDialog(null, "Produto não encontrado. Não foi possível adicionar à lista de compras.");
         }
     }
 
     public static void listarCompra() {
         if (compras.isEmpty()) {
-            System.out.println("\n" + "Não há compras realizadas!\n");
+            JOptionPane.showMessageDialog(null, "Não há compras realizadas!");
         } else {
             float total = 0;
+            StringBuilder mensagem = new StringBuilder();
             for (Compra compra : compras) {
                 total += compra.getProduto().getValue();
-                System.out.println(compra.toString());
+                mensagem.append(compra.toString()).append("\n");
             }
-            System.out.println("Total da compra: " + total + "\n");
+            mensagem.append("Total da compra: ").append(total).append("\n");
+            JOptionPane.showMessageDialog(null, mensagem.toString());
         }
     }
 
     public static void finalizarCompra() {
-        Scanner sc = new Scanner(System.in);
+        int finalCompra = JOptionPane.showOptionDialog(
+                null,
+                "Escolha uma opção:",
+                "Finalizar Compra",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                new String[]{"Finalizar a compra", "Continuar comprando"},
+                "Finalizar a compra"
+        );
 
-        System.out.println("""
-                Digite: (1) para finalizar a compra
-                Digite: (2) para continuar comprando
-                """);
-        int finalCompra = sc.nextInt();
-        if (finalCompra == 1) {
+        if (finalCompra == 0) {
             compras.clear();
-            System.out.println("Agradecemos pela preferencia!!!");
+            JOptionPane.showMessageDialog(null, "Agradecemos pela preferência!!!");
         }
     }
 }
