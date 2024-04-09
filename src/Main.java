@@ -7,6 +7,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        JOptionPane.showMessageDialog(null,"Lista de controle de produtos.");
         String[] opcoes = Entradas.listarOpcoes();
         JOptionPane.showMessageDialog(null, opcoes);
 

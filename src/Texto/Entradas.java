@@ -8,6 +8,7 @@ public class Entradas {
 
     public static String[] listarOpcoes() {
         return new String[] {
+                "Opções:",
                 "1) Cadastrar produto",
                 "2) Editar produtos",
                 "3) Listar produtos",
