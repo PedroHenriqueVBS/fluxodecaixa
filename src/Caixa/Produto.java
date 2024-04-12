@@ -5,12 +5,13 @@ public class Produto {
     private int code;
     private String name;
     private float value;
+    private int stock;
 
-
-    public Produto(String name, float value) {
+    public Produto(String name, float value, int stock) {
         this.code = nextCode++; //incrementa o valor do codigo ao variavel code
         this.name = name;
         this.value = value;
+        this.stock = stock;
     }
 
     public int getCode() {
@@ -32,4 +33,13 @@ public class Produto {
     public void setValue(float value) {
         this.value = value;
     }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
 }
