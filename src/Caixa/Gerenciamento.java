@@ -162,7 +162,7 @@ public class Gerenciamento {
                 totalProduto += compra.getStockQuantity();
                 message.append(compra.toString()).append("\n");
             }
-            message.append("Total da compra: ").append(total).append(" Total de Produtos: ").append(totalProduto);
+            message.append("Total da compra: ").append(total).append("\nTotal de Produtos: ").append(totalProduto);
         }
         JOptionPane.showMessageDialog(null, message.toString());
     }
